@@ -48,17 +48,17 @@ type NavGroup = {
 };
 
 const navGroups: NavGroup[] = [
-  {
-    label: "GESTÃO",
-    items: [
-      { label: "Imóveis", icon: Building2, href: "#" },
-      // { label: "Reservas", icon: CalendarDays, href: "#" },
-      // { label: "Clientes", icon: Users, href: "#" },
-      // { label: "Mensagens", icon: MessageSquare, href: "#" },
-      // { label: "Pagamentos", icon: CreditCard, href: "#" },
-      // { label: "Avaliações", icon: Star, href: "#" },
-    ],
-  },
+  // {
+  //   label: "GESTÃO",
+  //   items: [
+  //     { label: "Imóveis", icon: Building2, href: "#" },
+  //     // { label: "Reservas", icon: CalendarDays, href: "#" },
+  //     // { label: "Clientes", icon: Users, href: "#" },
+  //     // { label: "Mensagens", icon: MessageSquare, href: "#" },
+  //     // { label: "Pagamentos", icon: CreditCard, href: "#" },
+  //     // { label: "Avaliações", icon: Star, href: "#" },
+  //   ],
+  // },
   // {
   //   label: "CONTEÚDO",
   //   items: [
