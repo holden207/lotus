@@ -2,7 +2,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { Facebook, Instagram, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
 
 const NAV_LINKS = ["Início", "Imóveis", "Lançamentos", "Sobre Nós", "Contato"];
-const INFO_LINKS = ["Quem Somos", "Trabalhe Conosco", "Política de Privacidade", "Termos de Uso"];
+const INFO_LINKS = ["Trabalhe Conosco", "Política de Privacidade", "Termos de Uso"];
 
 type Contact = { icon: LucideIcon; value: string };
 const CONTACTS: Contact[] = [
