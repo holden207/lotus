@@ -1,6 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import logo from "@/assets/logo.png";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useSiteSettings } from "@/hooks/use-site-settings";
+import { phoneToWhatsApp } from "@/lib/site-settings";
 
 const NAV = [
   { label: "INÍCIO", hash: "inicio" as const },
@@ -17,6 +19,8 @@ function useActiveNavHash(): (typeof NAV)[number]["hash"] | null {
 
 export function Header() {
   const activeHash = useActiveNavHash();
+  const { settings } = useSiteSettings();
+  const whatsAppUrl = phoneToWhatsApp(settings.consultantWhatsApp);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background">
@@ -50,14 +54,15 @@ export function Header() {
           })}
         </nav>
 
-        <Link
-          to="/"
-          hash="contato"
+        <a
+          href={whatsAppUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-self-end gap-2 rounded-md border border-gold px-4 py-2.5 text-[11px] font-semibold tracking-[0.18em] text-foreground transition-colors hover:bg-gold-soft md:px-5"
         >
           <WhatsAppIcon className="h-3.5 w-3.5 text-gold" />
           FALE CONOSCO
-        </Link>
+        </a>
       </div>
     </header>
   );

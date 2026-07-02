@@ -4,6 +4,7 @@ export type SiteSettings = {
   footerAddress: string;
   consultantPhone: string;
   consultantEmail: string;
+  consultantWhatsApp: string;
 };
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
@@ -12,10 +13,18 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   footerAddress: "Av. Paulista, 1000 - São Paulo, SP",
   consultantPhone: "(11) 4002-8922",
   consultantEmail: "contato@lotusimoveis.com.br",
+  consultantWhatsApp: "(11) 4002-8922",
 };
 
 export function phoneToTel(phone: string): string {
   const digits = phone.replace(/\D/g, "");
   if (!digits) return "";
   return digits.startsWith("55") ? `tel:+${digits}` : `tel:+55${digits}`;
+}
+
+export function phoneToWhatsApp(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  if (!digits) return "";
+  const normalized = digits.startsWith("55") ? digits : `55${digits}`;
+  return `https://wa.me/${normalized}`;
 }

@@ -424,6 +424,7 @@ export type SiteSettings = {
   footerAddress: string;
   consultantPhone: string;
   consultantEmail: string;
+  consultantWhatsApp: string;
 };
 
 export type UpdateSiteSettingsInput = {
@@ -434,6 +435,7 @@ export type UpdateSiteSettingsInput = {
   footerAddress?: string;
   consultantPhone?: string;
   consultantEmail?: string;
+  consultantWhatsApp?: string;
 };
 
 export async function fetchSiteSettings(): Promise<SiteSettings> {

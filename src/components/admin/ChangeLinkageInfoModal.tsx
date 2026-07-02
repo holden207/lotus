@@ -42,6 +42,7 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
   const [footerAddress, setFooterAddress] = useState(settings.footerAddress);
   const [consultantPhone, setConsultantPhone] = useState(settings.consultantPhone);
   const [consultantEmail, setConsultantEmail] = useState(settings.consultantEmail);
+  const [consultantWhatsApp, setConsultantWhatsApp] = useState(settings.consultantWhatsApp);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
     setFooterAddress(settings.footerAddress);
     setConsultantPhone(settings.consultantPhone);
     setConsultantEmail(settings.consultantEmail);
+    setConsultantWhatsApp(settings.consultantWhatsApp);
   }, [open, settings]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -71,6 +73,7 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
         footerAddress,
         consultantPhone,
         consultantEmail,
+        consultantWhatsApp,
       });
 
       await Promise.all([
@@ -155,6 +158,16 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
                 value={consultantEmail}
                 onChange={(e) => setConsultantEmail(e.target.value)}
                 placeholder="contato@lotusimoveis.com.br"
+                disabled={submitting}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="linkage-consultant-whatsapp">WhatsApp</Label>
+              <Input
+                id="linkage-consultant-whatsapp"
+                value={consultantWhatsApp}
+                onChange={(e) => setConsultantWhatsApp(e.target.value)}
+                placeholder="(11) 4002-8922"
                 disabled={submitting}
               />
             </div>

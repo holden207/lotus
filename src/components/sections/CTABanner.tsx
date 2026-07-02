@@ -1,8 +1,13 @@
 import bannerBg from "@/assets/low.png";
 import otherLogo from "@/assets/other-logo.png";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useSiteSettings } from "@/hooks/use-site-settings";
+import { phoneToWhatsApp } from "@/lib/site-settings";
 
 export function CTABanner() {
+  const { settings } = useSiteSettings();
+  const whatsAppUrl = phoneToWhatsApp(settings.consultantWhatsApp);
+
   return (
     <section
       className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -14,7 +19,9 @@ export function CTABanner() {
             Vamos encontrar o imóvel perfeito para você.
           </h2>
           <a
-            href="#contato"
+            href={whatsAppUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-3 rounded-md border border-gold bg-cream/70 px-6 py-3 text-xs font-semibold tracking-[0.15em] text-foreground transition-colors hover:bg-cream"
           >
             FALE COM UM ESPECIALISTA
