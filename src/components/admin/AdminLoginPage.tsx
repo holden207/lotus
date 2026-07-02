@@ -28,7 +28,7 @@ export function AdminLoginPage({ onSuccess }: AdminLoginPageProps) {
     setSubmitting(true);
     try {
       await verifyAdminLogin(password);
-      setAdminAuthenticated(true);
+      setAdminAuthenticated(true, password);
       toast.success("Acesso autorizado.");
       onSuccess();
     } catch (err) {

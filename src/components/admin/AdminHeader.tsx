@@ -3,12 +3,21 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { Bell, ChevronDown, Plus, Settings } from "lucide-react";
+import { Bell, ChevronDown, KeyRound, Link2, LogOut, Plus, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { AddPropertyModal } from "@/components/admin/AddPropertyModal";
-import { SettingsModal } from "@/components/admin/SettingsModal";
+import { ChangeLinkageInfoModal } from "@/components/admin/ChangeLinkageInfoModal";
+import { ChangePasswordModal } from "@/components/admin/ChangePasswordModal";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useAdminAuth } from "@/lib/admin-auth-context";
 import { cn } from "@/lib/utils";
 import {
   fetchNotificationCount,
@@ -19,10 +28,12 @@ import {
 
 export function AdminHeader() {
   const [addPropertyOpen, setAddPropertyOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [changeLinkageOpen, setChangeLinkageOpen] = useState(false);
   const [dispatching, setDispatching] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { logout } = useAdminAuth();
 
   const { data: notificationCount = 0 } = useQuery({
     queryKey: ["notification-count"],
@@ -68,6 +79,11 @@ export function AdminHeader() {
     }
   }
 
+  function handleWithdrawMembership() {
+    logout();
+    toast.success("Associação encerrada. Faça login novamente para acessar o painel.");
+  }
+
   return (
     <header className="sticky top-0 z-10 border-b border-border/60 bg-cream/80 backdrop-blur-sm">
       <div className="flex flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
@@ -85,14 +101,31 @@ export function AdminHeader() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setSettingsOpen(true)}
-              aria-label="Configurações"
-            >
-              <Settings className="h-5 w-5" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" aria-label="Configurações">
+                  <Settings className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem onClick={() => setChangePasswordOpen(true)}>
+                  <KeyRound className="h-4 w-4" />
+                  Alterar senha
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setChangeLinkageOpen(true)}>
+                  <Link2 className="h-4 w-4" />
+                  Alterar informações de contato
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleWithdrawMembership}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Encerrar associação
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
               variant="ghost"
               size="icon"
@@ -117,31 +150,6 @@ export function AdminHeader() {
                 </span>
               )}
             </Button>
-
-            {/* <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  type="button"
-                  className="flex items-center gap-2 rounded-lg border border-border/60 bg-background px-2 py-1.5 transition-colors hover:bg-muted/50 sm:gap-3 sm:px-3"
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" alt="Admin" />
-                    <AvatarFallback>AD</AvatarFallback>
-                  </Avatar>
-                  <div className="hidden text-left sm:block">
-                    <p className="text-sm font-medium leading-none">Admin</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground">Administrador</p>
-                  </div>
-                  <ChevronDown className="hidden h-4 w-4 text-muted-foreground sm:block" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>Meu perfil</DropdownMenuItem>
-                <DropdownMenuItem>Configurações</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Sair</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
           </div>
         </div>
 
@@ -158,7 +166,8 @@ export function AdminHeader() {
       </div>
 
       <AddPropertyModal open={addPropertyOpen} onOpenChange={setAddPropertyOpen} />
-      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <ChangePasswordModal open={changePasswordOpen} onOpenChange={setChangePasswordOpen} />
+      <ChangeLinkageInfoModal open={changeLinkageOpen} onOpenChange={setChangeLinkageOpen} />
     </header>
   );
 }

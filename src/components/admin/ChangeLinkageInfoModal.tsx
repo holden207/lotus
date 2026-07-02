@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -17,9 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+import { getAdminPassword } from "@/lib/admin-auth";
 import { updateSiteSettings } from "@/lib/properties";
 
-type SettingsModalProps = {
+type ChangeLinkageInfoModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
@@ -32,14 +32,11 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
+export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfoModalProps) {
   const { settings } = useSiteSettings();
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [footerPhone, setFooterPhone] = useState(settings.footerPhone);
   const [footerEmail, setFooterEmail] = useState(settings.footerEmail);
   const [footerAddress, setFooterAddress] = useState(settings.footerAddress);
@@ -49,9 +46,6 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
   useEffect(() => {
     if (!open) return;
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
     setFooterPhone(settings.footerPhone);
     setFooterEmail(settings.footerEmail);
     setFooterAddress(settings.footerAddress);
@@ -62,27 +56,16 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!currentPassword.trim()) {
-      toast.error("Informe a senha atual para salvar as alterações.");
+    const currentPassword = getAdminPassword();
+    if (!currentPassword) {
+      toast.error("Sessão expirada. Faça login novamente para salvar as alterações.");
       return;
-    }
-
-    if (newPassword || confirmPassword) {
-      if (newPassword.length < 4) {
-        toast.error("A nova senha deve ter pelo menos 4 caracteres.");
-        return;
-      }
-      if (newPassword !== confirmPassword) {
-        toast.error("A confirmação da nova senha não confere.");
-        return;
-      }
     }
 
     setSubmitting(true);
     try {
       await updateSiteSettings({
         currentPassword,
-        newPassword: newPassword.trim() || undefined,
         footerPhone,
         footerEmail,
         footerAddress,
@@ -100,10 +83,10 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
         }),
       ]);
 
-      toast.success("Configurações salvas com sucesso.");
+      toast.success("Informações de contato salvas com sucesso.");
       onOpenChange(false);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Não foi possível salvar as configurações.");
+      toast.error(err instanceof Error ? err.message : "Não foi possível salvar as informações.");
     } finally {
       setSubmitting(false);
     }
@@ -113,61 +96,16 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Configurações</DialogTitle>
-          <DialogDescription>
-            Altere a senha de acesso e as informações de contato exibidas no site.
-          </DialogDescription>
+          <DialogTitle>Informações de contato</DialogTitle>
         </DialogHeader>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <section className="space-y-4">
-            <SectionHeading>Alterar senha</SectionHeading>
-            <div className="space-y-2">
-              <Label htmlFor="settings-current-password">Senha atual</Label>
-              <Input
-                id="settings-current-password"
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Digite a senha atual"
-                autoComplete="current-password"
-                disabled={submitting}
-              />
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="settings-new-password">Nova senha</Label>
-                <Input
-                  id="settings-new-password"
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Opcional"
-                  autoComplete="new-password"
-                  disabled={submitting}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="settings-confirm-password">Confirmar nova senha</Label>
-                <Input
-                  id="settings-confirm-password"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Opcional"
-                  autoComplete="new-password"
-                  disabled={submitting}
-                />
-              </div>
-            </div>
-          </section>
-
-          <section className="space-y-4">
             <SectionHeading>Contato do rodapé</SectionHeading>
             <div className="space-y-2">
-              <Label htmlFor="settings-footer-phone">Telefone</Label>
+              <Label htmlFor="linkage-footer-phone">Telefone</Label>
               <Input
-                id="settings-footer-phone"
+                id="linkage-footer-phone"
                 value={footerPhone}
                 onChange={(e) => setFooterPhone(e.target.value)}
                 placeholder="(11) 99999-9999"
@@ -175,9 +113,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="settings-footer-email">E-mail</Label>
+              <Label htmlFor="linkage-footer-email">E-mail</Label>
               <Input
-                id="settings-footer-email"
+                id="linkage-footer-email"
                 type="email"
                 value={footerEmail}
                 onChange={(e) => setFooterEmail(e.target.value)}
@@ -186,9 +124,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="settings-footer-address">Endereço</Label>
+              <Label htmlFor="linkage-footer-address">Endereço</Label>
               <Input
-                id="settings-footer-address"
+                id="linkage-footer-address"
                 value={footerAddress}
                 onChange={(e) => setFooterAddress(e.target.value)}
                 placeholder="Av. Paulista, 1000 - São Paulo, SP"
@@ -200,9 +138,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
           <section className="space-y-4">
             <SectionHeading>Contato do consultor (página do imóvel)</SectionHeading>
             <div className="space-y-2">
-              <Label htmlFor="settings-consultant-phone">Telefone</Label>
+              <Label htmlFor="linkage-consultant-phone">Telefone</Label>
               <Input
-                id="settings-consultant-phone"
+                id="linkage-consultant-phone"
                 value={consultantPhone}
                 onChange={(e) => setConsultantPhone(e.target.value)}
                 placeholder="(11) 4002-8922"
@@ -210,9 +148,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="settings-consultant-email">E-mail</Label>
+              <Label htmlFor="linkage-consultant-email">E-mail</Label>
               <Input
-                id="settings-consultant-email"
+                id="linkage-consultant-email"
                 type="email"
                 value={consultantEmail}
                 onChange={(e) => setConsultantEmail(e.target.value)}
