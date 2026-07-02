@@ -29,8 +29,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { LazyPropertyMap } from "@/components/LazyPropertyMap";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import type { Property } from "@/lib/properties";
 import { submitInquiry } from "@/lib/properties";
+import { phoneToTel } from "@/lib/site-settings";
 import { PropertyFeaturesGrid } from "@/components/PropertyFeaturesGrid";
 import { toast } from "sonner";
 
@@ -116,6 +118,7 @@ function PropertyGallery({ property }: { property: Property }) {
 
 function ContactSidebar({ property }: { property: Property }) {
   const [submitting, setSubmitting] = useState(false);
+  const { settings } = useSiteSettings();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -189,18 +192,18 @@ function ContactSidebar({ property }: { property: Property }) {
         <h3 className="font-display text-lg text-foreground">Fale com um consultor</h3>
         <div className="mt-4 space-y-3 text-sm text-muted-foreground">
           <a
-            href="tel:+551140028922"
+            href={phoneToTel(settings.consultantPhone)}
             className="flex items-center gap-3 transition-colors hover:text-gold"
           >
             <Phone className="h-4 w-4 shrink-0 text-gold" />
-            (11) 4002-8922
+            {settings.consultantPhone}
           </a>
           <a
-            href="mailto:contato@lotusimoveis.com.br"
+            href={`mailto:${settings.consultantEmail}`}
             className="flex items-center gap-3 transition-colors hover:text-gold"
           >
             <Mail className="h-4 w-4 shrink-0 text-gold" />
-            contato@lotusimoveis.com.br
+            {settings.consultantEmail}
           </a>
         </div>
       </div>

@@ -9,6 +9,8 @@ export type {
   ReservationNotification,
   CreatePropertyFormInput,
   UpdatePropertyFormInput,
+  SiteSettings,
+  UpdateSiteSettingsInput,
 } from "./api";
 
 export {
@@ -27,6 +29,9 @@ export {
   createProperty,
   updateProperty,
   deleteProperty,
+  fetchSiteSettings,
+  verifyAdminLogin,
+  updateSiteSettings,
   resolveMediaUrl,
   getApiOrigin,
 } from "./api";

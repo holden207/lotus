@@ -3,18 +3,11 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { Bell, ChevronDown, Plus } from "lucide-react";
+import { Bell, ChevronDown, Plus, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { AddPropertyModal } from "@/components/admin/AddPropertyModal";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SettingsModal } from "@/components/admin/SettingsModal";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
@@ -26,6 +19,7 @@ import {
 
 export function AdminHeader() {
   const [addPropertyOpen, setAddPropertyOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [dispatching, setDispatching] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -94,6 +88,14 @@ export function AdminHeader() {
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => setSettingsOpen(true)}
+              aria-label="Configurações"
+            >
+              <Settings className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               className="relative"
               onClick={handleNotificationClick}
               disabled={dispatching}
@@ -156,6 +158,7 @@ export function AdminHeader() {
       </div>
 
       <AddPropertyModal open={addPropertyOpen} onOpenChange={setAddPropertyOpen} />
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </header>
   );
 }

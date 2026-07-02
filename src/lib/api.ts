@@ -417,3 +417,41 @@ export async function deleteProperty(slug: string): Promise<void> {
     method: "DELETE",
   });
 }
+
+export type SiteSettings = {
+  footerPhone: string;
+  footerEmail: string;
+  footerAddress: string;
+  consultantPhone: string;
+  consultantEmail: string;
+};
+
+export type UpdateSiteSettingsInput = {
+  currentPassword: string;
+  newPassword?: string;
+  footerPhone?: string;
+  footerEmail?: string;
+  footerAddress?: string;
+  consultantPhone?: string;
+  consultantEmail?: string;
+};
+
+export async function fetchSiteSettings(): Promise<SiteSettings> {
+  const res = await apiFetch<ApiItemResponse<SiteSettings>>("/api/settings");
+  return res.data;
+}
+
+export async function verifyAdminLogin(password: string): Promise<void> {
+  await apiFetch<ApiItemResponse<{ success: boolean }>>("/api/settings/login", {
+    method: "POST",
+    body: JSON.stringify({ password }),
+  });
+}
+
+export async function updateSiteSettings(input: UpdateSiteSettingsInput): Promise<SiteSettings> {
+  const res = await apiFetch<ApiItemResponse<SiteSettings>>("/api/settings", {
+    method: "PUT",
+    body: JSON.stringify(input),
+  });
+  return res.data;
+}
