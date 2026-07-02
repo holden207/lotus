@@ -52,31 +52,31 @@ const navGroups: NavGroup[] = [
     label: "GESTÃO",
     items: [
       { label: "Imóveis", icon: Building2, href: "#" },
-      { label: "Reservas", icon: CalendarDays, href: "#" },
-      { label: "Clientes", icon: Users, href: "#" },
-      { label: "Mensagens", icon: MessageSquare, href: "#" },
-      { label: "Pagamentos", icon: CreditCard, href: "#" },
-      { label: "Avaliações", icon: Star, href: "#" },
+      // { label: "Reservas", icon: CalendarDays, href: "#" },
+      // { label: "Clientes", icon: Users, href: "#" },
+      // { label: "Mensagens", icon: MessageSquare, href: "#" },
+      // { label: "Pagamentos", icon: CreditCard, href: "#" },
+      // { label: "Avaliações", icon: Star, href: "#" },
     ],
   },
-  {
-    label: "CONTEÚDO",
-    items: [
-      { label: "Páginas", icon: FileText, href: "#" },
-      { label: "Banners", icon: Megaphone, href: "#" },
-      { label: "Depoimentos", icon: Quote, href: "#" },
-      { label: "Mídia", icon: Image, href: "#" },
-    ],
-  },
-  {
-    label: "CONFIGURAÇÕES",
-    items: [
-      { label: "Usuários", icon: Users, href: "#" },
-      { label: "Funções", icon: Shield, href: "#" },
-      { label: "Configurações", icon: Settings, href: "#" },
-      { label: "Integrações", icon: Plug, href: "#" },
-    ],
-  },
+  // {
+  //   label: "CONTEÚDO",
+  //   items: [
+  //     { label: "Páginas", icon: FileText, href: "#" },
+  //     { label: "Banners", icon: Megaphone, href: "#" },
+  //     { label: "Depoimentos", icon: Quote, href: "#" },
+  //     { label: "Mídia", icon: Image, href: "#" },
+  //   ],
+  // },
+  // {
+  //   label: "CONFIGURAÇÕES",
+  //   items: [
+  //     { label: "Usuários", icon: Users, href: "#" },
+  //     { label: "Funções", icon: Shield, href: "#" },
+  //     { label: "Configurações", icon: Settings, href: "#" },
+  //     { label: "Integrações", icon: Plug, href: "#" },
+  //   ],
+  // },
 ];
 
 function CollapseButton() {
@@ -153,7 +153,7 @@ export function AdminSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-2">
+      {/* <SidebarFooter className="border-t border-sidebar-border p-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip="Suporte">
@@ -173,7 +173,7 @@ export function AdminSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
         <CollapseButton />
-      </SidebarFooter>
+      </SidebarFooter> */}
 
       <SidebarRail />
     </Sidebar>
