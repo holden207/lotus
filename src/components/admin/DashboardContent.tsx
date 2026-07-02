@@ -496,89 +496,89 @@ function RecentReservationsCard({ inquiries }: { inquiries: Inquiry[] }) {
   );
 }
 
-function CalendarAndActivities() {
-  return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      <Card className="border-border/60 shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-base font-semibold">Calendário de reservas</CardTitle>
-          <div className="flex items-center gap-1">
-            <Select defaultValue="month">
-              <SelectTrigger className="h-7 w-[80px] text-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="month">Mês</SelectItem>
-                <SelectItem value="week">Semana</SelectItem>
-                <SelectItem value="day">Dia</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <ReservationCalendar />
-          <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <span className="h-2 w-4 rounded-sm bg-emerald-500" />
-              Check-in
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2 w-4 rounded-sm bg-gold" />
-              Check-out
-            </span>
-          </div>
-        </CardContent>
-      </Card>
+// function CalendarAndActivities() {
+//   return (
+//     <div className="grid gap-4 lg:grid-cols-2">
+//       <Card className="border-border/60 shadow-sm">
+//         <CardHeader className="flex flex-row items-center justify-between pb-2">
+//           <CardTitle className="text-base font-semibold">Calendário de reservas</CardTitle>
+//           <div className="flex items-center gap-1">
+//             <Select defaultValue="month">
+//               <SelectTrigger className="h-7 w-[80px] text-xs">
+//                 <SelectValue />
+//               </SelectTrigger>
+//               <SelectContent>
+//                 <SelectItem value="month">Mês</SelectItem>
+//                 <SelectItem value="week">Semana</SelectItem>
+//                 <SelectItem value="day">Dia</SelectItem>
+//               </SelectContent>
+//             </Select>
+//           </div>
+//         </CardHeader>
+//         <CardContent>
+//           <ReservationCalendar />
+//           <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
+//             <span className="flex items-center gap-1.5">
+//               <span className="h-2 w-4 rounded-sm bg-emerald-500" />
+//               Check-in
+//             </span>
+//             <span className="flex items-center gap-1.5">
+//               <span className="h-2 w-4 rounded-sm bg-gold" />
+//               Check-out
+//             </span>
+//           </div>
+//         </CardContent>
+//       </Card>
 
-      <Card className="border-border/60 shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold">Atividades recentes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {activities.map((activity, index) => (
-              <div key={activity.id} className="relative flex gap-3 pl-1">
-                {index < activities.length - 1 && (
-                  <span className="absolute left-[15px] top-8 h-[calc(100%+4px)] w-px bg-border" />
-                )}
-                <div
-                  className={cn(
-                    "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-                    activity.type === "property" && "bg-blue-50 text-blue-600",
-                    activity.type === "reservation" && "bg-emerald-50 text-emerald-600",
-                    activity.type === "review" && "bg-amber-50 text-amber-600",
-                  )}
-                >
-                  {activity.type === "review" ? (
-                    <Star className="h-4 w-4" />
-                  ) : activity.type === "property" ? (
-                    <Building2 className="h-4 w-4" />
-                  ) : (
-                    <CalendarDays className="h-4 w-4" />
-                  )}
-                </div>
-                <div className="min-w-0 flex-1 pb-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm font-medium">{activity.title}</p>
-                    <ActivityRelativeTime minutesAgo={activity.minutesAgo} />
-                  </div>
-                  <p className="text-xs text-muted-foreground">{activity.description}</p>
-                  {activity.rating && (
-                    <div className="mt-1 flex gap-0.5">
-                      {Array.from({ length: activity.rating }).map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
+//       <Card className="border-border/60 shadow-sm">
+//         <CardHeader className="pb-2">
+//           <CardTitle className="text-base font-semibold">Atividades recentes</CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//           <div className="space-y-4">
+//             {activities.map((activity, index) => (
+//               <div key={activity.id} className="relative flex gap-3 pl-1">
+//                 {index < activities.length - 1 && (
+//                   <span className="absolute left-[15px] top-8 h-[calc(100%+4px)] w-px bg-border" />
+//                 )}
+//                 <div
+//                   className={cn(
+//                     "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+//                     activity.type === "property" && "bg-blue-50 text-blue-600",
+//                     activity.type === "reservation" && "bg-emerald-50 text-emerald-600",
+//                     activity.type === "review" && "bg-amber-50 text-amber-600",
+//                   )}
+//                 >
+//                   {activity.type === "review" ? (
+//                     <Star className="h-4 w-4" />
+//                   ) : activity.type === "property" ? (
+//                     <Building2 className="h-4 w-4" />
+//                   ) : (
+//                     <CalendarDays className="h-4 w-4" />
+//                   )}
+//                 </div>
+//                 <div className="min-w-0 flex-1 pb-1">
+//                   <div className="flex items-start justify-between gap-2">
+//                     <p className="text-sm font-medium">{activity.title}</p>
+//                     <ActivityRelativeTime minutesAgo={activity.minutesAgo} />
+//                   </div>
+//                   <p className="text-xs text-muted-foreground">{activity.description}</p>
+//                   {activity.rating && (
+//                     <div className="mt-1 flex gap-0.5">
+//                       {Array.from({ length: activity.rating }).map((_, i) => (
+//                         <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
+//                       ))}
+//                     </div>
+//                   )}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </CardContent>
+//       </Card>
+//     </div>
+//   );
+// }
 
 function buildReservationCountByPropertySlug(inquiries: Inquiry[]): Map<string, number> {
   const counts = new Map<string, number>();
@@ -636,9 +636,9 @@ export function DashboardContent({
           </div>
         }
       >
-        <DashboardCharts />
+        {/* <DashboardCharts /> */}
       </Suspense>
-      <CalendarAndActivities />
+      {/* <CalendarAndActivities /> */}
     </div>
   );
 }
