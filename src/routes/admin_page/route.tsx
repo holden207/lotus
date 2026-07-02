@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
+// import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin_page")({
@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin_page")({
 function AdminLayout() {
   return (
     <SidebarProvider defaultOpen className="admin-shell min-h-svh">
-      <AdminSidebar />
+      {/* <AdminSidebar /> */}
       <SidebarInset className="bg-cream">
         <Outlet />
       </SidebarInset>
