@@ -116,7 +116,7 @@ export function AdminHeader() {
               )}
             </Button>
 
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
@@ -139,7 +139,7 @@ export function AdminHeader() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Sair</DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </div>
         </div>
 
