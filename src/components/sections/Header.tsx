@@ -31,7 +31,7 @@ export function Header() {
           className="flex shrink-0 items-center justify-self-start"
           aria-label="Lótus Imóveis"
         >
-          <img src={logo} alt="Lótus Imóveis" className="h-14 w-auto md:h-16" />
+          <img src={logo} alt="Lótus Imóveis" className="h-20 w-auto md:h-24" />
         </Link>
 
         <nav className="hidden items-center justify-center gap-7 lg:flex xl:gap-9">

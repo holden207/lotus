@@ -28,7 +28,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { LazyPropertyMap } from "@/components/LazyPropertyMap";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 import type { Property } from "@/lib/properties";
 import { submitInquiry } from "@/lib/properties";
@@ -210,10 +209,7 @@ function ContactSidebar({ property }: { property: Property }) {
 
       <div className="rounded-lg border border-border/70 bg-card p-6 shadow-sm">
         <h3 className="font-display text-lg text-foreground">Localização</h3>
-        <div className="mt-4 overflow-hidden rounded-md">
-          <LazyPropertyMap address={property.address} />
-        </div>
-        <p className="mt-3 flex items-start gap-2 text-sm text-muted-foreground">
+        <p className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
           <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
           {property.address}
         </p>
