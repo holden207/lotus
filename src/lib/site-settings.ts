@@ -2,6 +2,7 @@ export type SiteSettings = {
   footerPhone: string;
   footerEmail: string;
   footerAddress: string;
+  footerCreci: string;
   consultantPhone: string;
   consultantEmail: string;
   consultantWhatsApp: string;
@@ -13,6 +14,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   footerPhone: "(11) 99999-9999",
   footerEmail: "contato@lotusimoveis.com.br",
   footerAddress: "Av. Paulista, 1000 - São Paulo, SP",
+  footerCreci: "",
   consultantPhone: "(11) 4002-8922",
   consultantEmail: "contato@lotusimoveis.com.br",
   consultantWhatsApp: "(11) 4002-8922",

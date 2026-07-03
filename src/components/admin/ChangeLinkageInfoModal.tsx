@@ -40,6 +40,7 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
   const [footerPhone, setFooterPhone] = useState(settings.footerPhone);
   const [footerEmail, setFooterEmail] = useState(settings.footerEmail);
   const [footerAddress, setFooterAddress] = useState(settings.footerAddress);
+  const [footerCreci, setFooterCreci] = useState(settings.footerCreci);
   const [consultantPhone, setConsultantPhone] = useState(settings.consultantPhone);
   const [consultantEmail, setConsultantEmail] = useState(settings.consultantEmail);
   const [consultantWhatsApp, setConsultantWhatsApp] = useState(settings.consultantWhatsApp);
@@ -52,6 +53,7 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
     setFooterPhone(settings.footerPhone);
     setFooterEmail(settings.footerEmail);
     setFooterAddress(settings.footerAddress);
+    setFooterCreci(settings.footerCreci);
     setConsultantPhone(settings.consultantPhone);
     setConsultantEmail(settings.consultantEmail);
     setConsultantWhatsApp(settings.consultantWhatsApp);
@@ -75,6 +77,7 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
         footerPhone,
         footerEmail,
         footerAddress,
+        footerCreci,
         consultantPhone,
         consultantEmail,
         consultantWhatsApp,
@@ -139,6 +142,16 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
                 value={footerAddress}
                 onChange={(e) => setFooterAddress(e.target.value)}
                 placeholder="Av. Paulista, 1000 - São Paulo, SP"
+                disabled={submitting}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="linkage-footer-creci">CRECI</Label>
+              <Input
+                id="linkage-footer-creci"
+                value={footerCreci}
+                onChange={(e) => setFooterCreci(e.target.value)}
+                placeholder="000000"
                 disabled={submitting}
               />
             </div>

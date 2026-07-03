@@ -1,7 +1,7 @@
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 import { phoneToTel, phoneToWhatsApp } from "@/lib/site-settings";
-import { Facebook, Instagram, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
+import { Facebook, IdCard, Instagram, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
 
 const NAV_LINKS = ["Início", "Imóveis", "Lançamentos", "Contato"];
 const INFO_LINKS = ["Trabalhe Conosco", "Política de Privacidade", "Termos de Uso"];
@@ -54,6 +54,7 @@ export function Footer() {
     { icon: Phone, value: settings.footerPhone, href: phoneToTel(settings.footerPhone) },
     { icon: Mail, value: settings.footerEmail, href: `mailto:${settings.footerEmail}` },
     { icon: MapPin, value: settings.footerAddress },
+    { icon: IdCard, value: `Creci: ${settings.footerCreci}` },
   ];
 
   const whatsAppUrl = phoneToWhatsApp(settings.consultantWhatsApp);

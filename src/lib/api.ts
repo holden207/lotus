@@ -436,6 +436,7 @@ export type SiteSettings = {
   footerPhone: string;
   footerEmail: string;
   footerAddress: string;
+  footerCreci: string;
   consultantPhone: string;
   consultantEmail: string;
   consultantWhatsApp: string;
@@ -449,6 +450,7 @@ export type UpdateSiteSettingsInput = {
   footerPhone?: string;
   footerEmail?: string;
   footerAddress?: string;
+  footerCreci?: string;
   consultantPhone?: string;
   consultantEmail?: string;
   consultantWhatsApp?: string;
