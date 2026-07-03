@@ -13,6 +13,7 @@ import {
   Wind,
   type LucideIcon,
 } from "lucide-react";
+import { LakefrontIcon, NewHouseIcon, SolarEnergyIcon } from "@/components/icons/AmenityIcons";
 import type { PropertyAmenityId, PropertyFeature } from "./api";
 
 export type AmenityId = PropertyAmenityId;
@@ -33,6 +34,9 @@ export const AMENITY_CATALOG: {
   { id: "marina", label: "Marina", pageLabel: "Marina", icon: "marina" },
   { id: "wifi", label: "Wi-Fi", pageLabel: "Wi-Fi", icon: "wifi" },
   { id: "parking_space", label: "Vaga de estacionamento", pageLabel: "Parking", icon: "parking" },
+  { id: "solar_energy", label: "Energia solar", pageLabel: "Solar energy", icon: "solar" },
+  { id: "new_house", label: "Casa nova", pageLabel: "New house", icon: "new_house" },
+  { id: "lakefront", label: "Frente ao lago", pageLabel: "Lakefront", icon: "lakefront" },
 ];
 
 export const FEATURE_ICON_OPTIONS: { value: PropertyFeatureIcon; label: string }[] = [
@@ -48,6 +52,9 @@ export const FEATURE_ICON_OPTIONS: { value: PropertyFeatureIcon; label: string }
   { value: "balcony", label: "Varanda / Terraço" },
   { value: "beach", label: "Praia" },
   { value: "marina", label: "Marina" },
+  { value: "solar", label: "Energia solar" },
+  { value: "new_house", label: "Casa nova" },
+  { value: "lakefront", label: "Frente ao lago" },
 ];
 
 export const FEATURE_ICONS: Record<PropertyFeatureIcon, LucideIcon> = {
@@ -63,6 +70,9 @@ export const FEATURE_ICONS: Record<PropertyFeatureIcon, LucideIcon> = {
   balcony: PanelTop,
   beach: Umbrella,
   marina: Anchor,
+  solar: SolarEnergyIcon,
+  new_house: NewHouseIcon,
+  lakefront: LakefrontIcon,
 };
 
 const AMENITY_BY_ID = new Map(AMENITY_CATALOG.map((amenity) => [amenity.id, amenity]));
@@ -78,6 +88,9 @@ const LABEL_ALIASES: Partial<Record<AmenityId, RegExp[]>> = {
   marina: [/marina/i],
   wifi: [/wi[\s-]?fi/i],
   parking_space: [/vaga/i, /estacionamento/i, /parking/i],
+  solar_energy: [/energia\s*solar/i, /solar\s*energy/i, /pain[eé]l\s*solar/i],
+  new_house: [/casa\s*nova/i, /new\s*house/i, /im[oó]vel\s*novo/i],
+  lakefront: [/frente\s*ao\s*lago/i, /lakefront/i, /beira\s*do\s*lago/i],
 };
 
 export function sortAmenityIds(ids: AmenityId[]): AmenityId[] {

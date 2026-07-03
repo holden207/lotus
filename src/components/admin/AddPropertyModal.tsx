@@ -417,12 +417,19 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
     const formData = new FormData(event.currentTarget);
     const title = String(formData.get("title") ?? "").trim();
     const locationOrCode = String(formData.get("locationOrCode") ?? "").trim();
-    const description = String(formData.get("description") ?? "").trim();
     const introductionValue = formData.get("introduction");
     const introduction =
       introductionValue !== null && String(introductionValue).trim().length > 0
         ? String(introductionValue)
         : undefined;
+    const description =
+      isEdit && property
+        ? descriptionToText(property.description)
+        : introduction && introduction.trim().length >= 10
+          ? introduction.trim()
+          : title.length >= 10
+            ? title
+            : `${title} - ${locationOrCode}`;
     const price = String(formData.get("price") ?? "").trim();
     const purpose = String(formData.get("purpose") ?? "comprar").trim() as "comprar" | "alugar";
     const propertyType = String(formData.get("propertyType") ?? "Apartamento").trim();
@@ -662,23 +669,7 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={6} title="Descrição do imóvel" />
-            <div className="space-y-2">
-              <RequiredLabel htmlFor="property-description">Descrição do imóvel</RequiredLabel>
-              <Textarea
-                id="property-description"
-                name="description"
-                defaultValue={property ? descriptionToText(property.description) : ""}
-                placeholder="Ex: Apartamento amplo com vista para o mar, acabamento de alto padrão e área de lazer completa..."
-                className="min-h-[120px] resize-y rounded-lg border-border/70"
-                required
-                disabled={submitting}
-              />
-            </div>
-          </section>
-
-          <section className="space-y-4">
-            <SectionHeading number={7} title="Imagem de capa" />
+            <SectionHeading number={6} title="Imagem de capa" />
             <ImageUploadZone
               id="property-cover"
               label="Imagem de capa"
@@ -694,7 +685,7 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={8} title="Galeria de imagens" />
+            <SectionHeading number={7} title="Galeria de imagens" />
             <GalleryUploadZone
               id="property-gallery"
               label="Imagens do imóvel"
@@ -705,12 +696,12 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={9} title="Finalidade e localização" />
+            <SectionHeading number={8} title="Finalidade e localização" />
             <PropertyListingFields property={property} submitting={submitting} />
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={10} title="Preço" />
+            <SectionHeading number={9} title="Preço" />
             <div className="space-y-2">
               <RequiredLabel htmlFor="property-price">Preço do imóvel</RequiredLabel>
               <div className="flex">

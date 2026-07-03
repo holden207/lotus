@@ -405,15 +405,6 @@ export function PropertyDetail({ property, similar }: { property: Property; simi
             ) : null}
 
             <section>
-              <h2 className="font-display text-2xl text-foreground">Sobre o imóvel</h2>
-              <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                {property.description.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-            </section>
-
-            <section>
               <h2 className="font-display text-2xl text-foreground">Diferenciais do imóvel</h2>
               <PropertyFeaturesGrid
                 features={property.features}

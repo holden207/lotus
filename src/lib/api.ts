@@ -10,7 +10,10 @@ export type PropertyAmenityId =
   | "private_beach"
   | "marina"
   | "wifi"
-  | "parking_space";
+  | "parking_space"
+  | "solar_energy"
+  | "new_house"
+  | "lakefront";
 
 export type PropertyFeature = {
   label: string;
@@ -26,7 +29,10 @@ export type PropertyFeature = {
     | "elevator"
     | "balcony"
     | "beach"
-    | "marina";
+    | "marina"
+    | "solar"
+    | "new_house"
+    | "lakefront";
   amenityId?: PropertyAmenityId;
 };
 
