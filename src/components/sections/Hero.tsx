@@ -212,7 +212,7 @@ export function Hero({ condominiums, onSearch }: HeroProps) {
                     setMinPriceInput(handlePriceInputChange(e.target.value));
                     setPriceError(null);
                   }}
-                  placeholder="0,00"
+                  placeholder="0"
                   className={`${inputClassName} pl-9`}
                   aria-label="Valor mínimo"
                   aria-invalid={priceError ? true : undefined}
@@ -234,7 +234,7 @@ export function Hero({ condominiums, onSearch }: HeroProps) {
                     setMaxPriceInput(handlePriceInputChange(e.target.value));
                     setPriceError(null);
                   }}
-                  placeholder="0,00"
+                  placeholder="0"
                   className={`${inputClassName} pl-9`}
                   aria-label="Valor máximo"
                   aria-invalid={priceError ? true : undefined}

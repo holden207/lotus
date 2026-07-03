@@ -43,6 +43,8 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
   const [consultantPhone, setConsultantPhone] = useState(settings.consultantPhone);
   const [consultantEmail, setConsultantEmail] = useState(settings.consultantEmail);
   const [consultantWhatsApp, setConsultantWhatsApp] = useState(settings.consultantWhatsApp);
+  const [instagramUrl, setInstagramUrl] = useState(settings.instagramUrl);
+  const [facebookUrl, setFacebookUrl] = useState(settings.facebookUrl);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -53,6 +55,8 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
     setConsultantPhone(settings.consultantPhone);
     setConsultantEmail(settings.consultantEmail);
     setConsultantWhatsApp(settings.consultantWhatsApp);
+    setInstagramUrl(settings.instagramUrl);
+    setFacebookUrl(settings.facebookUrl);
   }, [open, settings]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -74,6 +78,8 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
         consultantPhone,
         consultantEmail,
         consultantWhatsApp,
+        instagramUrl,
+        facebookUrl,
       });
 
       await Promise.all([
@@ -168,6 +174,32 @@ export function ChangeLinkageInfoModal({ open, onOpenChange }: ChangeLinkageInfo
                 value={consultantWhatsApp}
                 onChange={(e) => setConsultantWhatsApp(e.target.value)}
                 placeholder="(11) 4002-8922"
+                disabled={submitting}
+              />
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <SectionHeading>Redes sociais (rodapé)</SectionHeading>
+            <div className="space-y-2">
+              <Label htmlFor="linkage-instagram-url">Instagram</Label>
+              <Input
+                id="linkage-instagram-url"
+                type="url"
+                value={instagramUrl}
+                onChange={(e) => setInstagramUrl(e.target.value)}
+                placeholder="https://www.instagram.com/lotusimoveis"
+                disabled={submitting}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="linkage-facebook-url">Facebook</Label>
+              <Input
+                id="linkage-facebook-url"
+                type="url"
+                value={facebookUrl}
+                onChange={(e) => setFacebookUrl(e.target.value)}
+                placeholder="https://www.facebook.com/lotusimoveis"
                 disabled={submitting}
               />
             </div>

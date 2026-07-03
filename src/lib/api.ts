@@ -1,3 +1,5 @@
+import { DEFAULT_SITE_SETTINGS } from "./site-settings";
+
 export type PropertyBadge = "DESTAQUE" | "LANÇAMENTO";
 
 export type PropertyAmenityId =
@@ -431,6 +433,8 @@ export type SiteSettings = {
   consultantPhone: string;
   consultantEmail: string;
   consultantWhatsApp: string;
+  instagramUrl: string;
+  facebookUrl: string;
 };
 
 export type UpdateSiteSettingsInput = {
@@ -442,11 +446,13 @@ export type UpdateSiteSettingsInput = {
   consultantPhone?: string;
   consultantEmail?: string;
   consultantWhatsApp?: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
 };
 
 export async function fetchSiteSettings(): Promise<SiteSettings> {
   const res = await apiFetch<ApiItemResponse<SiteSettings>>("/api/settings");
-  return res.data;
+  return { ...DEFAULT_SITE_SETTINGS, ...res.data };
 }
 
 export async function verifyAdminLogin(password: string): Promise<void> {

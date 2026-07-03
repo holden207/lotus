@@ -5,6 +5,8 @@ export type SiteSettings = {
   consultantPhone: string;
   consultantEmail: string;
   consultantWhatsApp: string;
+  instagramUrl: string;
+  facebookUrl: string;
 };
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
@@ -14,6 +16,8 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   consultantPhone: "(11) 4002-8922",
   consultantEmail: "contato@lotusimoveis.com.br",
   consultantWhatsApp: "(11) 4002-8922",
+  instagramUrl: "https://www.instagram.com/lotusimoveis",
+  facebookUrl: "https://www.facebook.com/lotusimoveis",
 };
 
 export function phoneToTel(phone: string): string {

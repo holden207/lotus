@@ -2,15 +2,20 @@ import { Link } from "@tanstack/react-router";
 import { Bath, BedDouble, Car, Maximize } from "lucide-react";
 import type { Property } from "@/lib/properties";
 import { propertyBadgeLabel, propertyPurposeLabel } from "@/lib/property-labels";
+import { allFeaturesForDisplay, FEATURE_ICONS } from "@/lib/property-features";
 import { cn } from "@/lib/utils";
 
 export function PropertyCard({ property }: { property: Property }) {
   const specs = [
-    { icon: BedDouble, value: property.beds },
-    { icon: Bath, value: property.baths },
-    { icon: Car, value: property.parking },
-    { icon: Maximize, value: `${property.area}m²` },
+    { icon: BedDouble, value: property.beds, label: "Quartos" },
+    { icon: Bath, value: property.baths, label: "Banheiros" },
+    { icon: Car, value: property.parking, label: "Vagas" },
+    { icon: Maximize, value: `${property.area}m²`, label: "Área" },
   ];
+
+  const features = allFeaturesForDisplay(property.features ?? [], property.parking, {
+    usePageLabels: false,
+  });
 
   const purposeLabel = propertyPurposeLabel(property.purpose);
 
@@ -56,13 +61,33 @@ export function PropertyCard({ property }: { property: Property }) {
           <p className="mt-1 text-sm text-muted-foreground">{property.location}</p>
         </div>
         <div className="flex flex-wrap items-center gap-4 border-t border-border/70 pt-3.5 text-sm text-muted-foreground">
-          {specs.map(({ icon: Icon, value }, i) => (
-            <span key={i} className="flex items-center gap-1.5">
-              <Icon className="h-4 w-4 text-gold" strokeWidth={1.5} />
-              {value}
+          {specs.map(({ icon: Icon, value, label }) => (
+            <span key={label} className="flex items-center gap-1.5" title={label}>
+              <Icon className="h-4 w-4 text-gold" strokeWidth={1.5} aria-hidden />
+              <span>{value}</span>
             </span>
           ))}
         </div>
+        {features.length > 0 ? (
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {features.map((feature, index) => {
+              const Icon = FEATURE_ICONS[feature.icon];
+              const key = feature.amenityId ?? `${feature.icon}-${index}`;
+
+              return (
+                <div
+                  key={key}
+                  className="flex flex-col items-center gap-1.5 rounded-lg border border-border/70 bg-cream/50 px-2 py-3 text-center"
+                >
+                  <Icon className="h-5 w-5 text-gold" strokeWidth={1.5} />
+                  <span className="text-[10px] font-medium leading-tight text-foreground">
+                    {feature.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
         <p className="text-lg font-semibold text-gold">{property.price}</p>
       </div>
     </Link>

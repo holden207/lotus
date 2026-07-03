@@ -199,16 +199,16 @@ export function formatBrazilianPrice(value: number): string {
 
 export function formatPriceInput(value: number): string {
   if (value <= 0) return "";
-  return value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return value.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
 export function handlePriceInputChange(raw: string): string {
   const digits = raw.replace(/\D/g, "");
   if (!digits) return "";
-  const cents = Number.parseInt(digits, 10);
-  if (!Number.isFinite(cents)) return "";
-  return (cents / 100).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+  const value = Number.parseInt(digits, 10);
+  if (!Number.isFinite(value)) return "";
+  return value.toLocaleString("pt-BR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   });
 }
