@@ -338,16 +338,14 @@ function RecentPropertiesCard({
             Nenhum imóvel cadastrado ainda.
           </p>
         ) : (
-          <div className="max-h-[min(28rem,60vh)] overflow-y-auto overflow-x-hidden overscroll-y-contain [scrollbar-gutter:stable]">
-            <div className="space-y-3 pr-1 pb-2">
-              {visibleProperties.map((property) => (
-                <PropertyListingRow
-                  key={property.slug}
-                  property={property}
-                  reservationCountByPropertySlug={reservationCountByPropertySlug}
-                />
-              ))}
-            </div>
+          <div className="space-y-3 pb-2">
+            {visibleProperties.map((property) => (
+              <PropertyListingRow
+                key={property.slug}
+                property={property}
+                reservationCountByPropertySlug={reservationCountByPropertySlug}
+              />
+            ))}
           </div>
         )}
       </CardContent>
@@ -483,12 +481,10 @@ function RecentReservationsCard({ inquiries }: { inquiries: Inquiry[] }) {
             Nenhuma reserva recebida ainda.
           </p>
         ) : (
-          <div className="max-h-[min(28rem,60vh)] overflow-y-auto overflow-x-hidden overscroll-y-contain [scrollbar-gutter:stable]">
-            <div className="space-y-3 pr-1 pb-2">
-              {visibleInquiries.map((inquiry) => (
-                <ReservationListingRow key={inquiry.id} inquiry={inquiry} />
-              ))}
-            </div>
+          <div className="space-y-3 pb-2">
+            {visibleInquiries.map((inquiry) => (
+              <ReservationListingRow key={inquiry.id} inquiry={inquiry} />
+            ))}
           </div>
         )}
       </CardContent>
