@@ -30,7 +30,7 @@ export const Route = createFileRoute("/imoveis/$slug")({
       },
       {
         name: "description",
-        content: loaderData?.property.description[0] ?? "Detalhes do imóvel",
+        content: loaderData?.property.introduction ?? loaderData?.property.description[0] ?? "Detalhes do imóvel",
       },
     ],
   }),

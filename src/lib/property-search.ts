@@ -145,10 +145,10 @@ export function applyPropertyFilters(properties: Property[], filters: HeroSearch
     if (filters.locationOrCode && !matchesLocationOrCode(property, filters.locationOrCode)) {
       return false;
     }
-    if (filters.minPrice !== undefined && property.priceValue < filters.minPrice) {
+    if (filters.minPrice !== undefined && filters.minPrice > 0 && property.priceValue < filters.minPrice) {
       return false;
     }
-    if (filters.maxPrice !== undefined && property.priceValue > filters.maxPrice) {
+    if (filters.maxPrice !== undefined && filters.maxPrice > 0 && property.priceValue > filters.maxPrice) {
       return false;
     }
     return true;

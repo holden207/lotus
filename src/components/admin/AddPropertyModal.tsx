@@ -418,6 +418,11 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
     const title = String(formData.get("title") ?? "").trim();
     const locationOrCode = String(formData.get("locationOrCode") ?? "").trim();
     const description = String(formData.get("description") ?? "").trim();
+    const introductionValue = formData.get("introduction");
+    const introduction =
+      introductionValue !== null && String(introductionValue).trim().length > 0
+        ? String(introductionValue)
+        : undefined;
     const price = String(formData.get("price") ?? "").trim();
     const purpose = String(formData.get("purpose") ?? "comprar").trim() as "comprar" | "alugar";
     const propertyType = String(formData.get("propertyType") ?? "Apartamento").trim();
@@ -458,6 +463,7 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           baths,
           parking,
           area,
+          introduction,
           description,
           location,
           price,
@@ -480,6 +486,7 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           baths,
           parking,
           area,
+          introduction,
           description,
           location,
           price,
@@ -637,7 +644,25 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={5} title="Descrição do imóvel" />
+            <SectionHeading number={5} title="Frase introdutória" />
+            <div className="space-y-2">
+              <Label htmlFor="property-introduction">Frase introdutória do imóvel</Label>
+              <Textarea
+                id="property-introduction"
+                name="introduction"
+                defaultValue={property?.introduction ?? ""}
+                placeholder="Ex: Um refúgio exclusivo com vista panorâmica e acabamento impecável."
+                className="min-h-[80px] resize-y rounded-lg border-border/70"
+                disabled={submitting}
+              />
+              <p className="text-xs text-muted-foreground">
+                Esta frase será exibida exatamente como digitada na seção de introdução da página do imóvel.
+              </p>
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <SectionHeading number={6} title="Descrição do imóvel" />
             <div className="space-y-2">
               <RequiredLabel htmlFor="property-description">Descrição do imóvel</RequiredLabel>
               <Textarea
@@ -653,7 +678,7 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={6} title="Imagem de capa" />
+            <SectionHeading number={7} title="Imagem de capa" />
             <ImageUploadZone
               id="property-cover"
               label="Imagem de capa"
@@ -669,7 +694,7 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={7} title="Galeria de imagens" />
+            <SectionHeading number={8} title="Galeria de imagens" />
             <GalleryUploadZone
               id="property-gallery"
               label="Imagens do imóvel"
@@ -680,12 +705,12 @@ export function AddPropertyModal({ open, onOpenChange, property }: AddPropertyMo
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={8} title="Finalidade e localização" />
+            <SectionHeading number={9} title="Finalidade e localização" />
             <PropertyListingFields property={property} submitting={submitting} />
           </section>
 
           <section className="space-y-4">
-            <SectionHeading number={9} title="Preço" />
+            <SectionHeading number={10} title="Preço" />
             <div className="space-y-2">
               <RequiredLabel htmlFor="property-price">Preço do imóvel</RequiredLabel>
               <div className="flex">

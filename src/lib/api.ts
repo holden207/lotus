@@ -46,6 +46,7 @@ export type Property = {
   area: number;
   price: string;
   priceValue: number;
+  introduction?: string;
   description: string[];
   features: PropertyFeature[];
   createdAt: string;
@@ -57,6 +58,7 @@ export type CreatePropertyFormInput = {
   baths: number;
   parking: number;
   area: number;
+  introduction?: string;
   description: string;
   location: string;
   address?: string;
@@ -316,6 +318,7 @@ export type UpdatePropertyFormInput = {
   baths: number;
   parking: number;
   area: number;
+  introduction?: string;
   description: string;
   location: string;
   address?: string;
@@ -358,6 +361,9 @@ async function submitPropertyForm(
   formData.append("baths", String(input.baths));
   formData.append("parking", String(input.parking));
   formData.append("area", String(input.area));
+  if (input.introduction !== undefined) {
+    formData.append("introduction", input.introduction);
+  }
   formData.append("description", input.description);
   formData.append("location", input.location);
   if (input.address) formData.append("address", input.address);

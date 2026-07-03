@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -25,93 +25,210 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 import type { Property } from "@/lib/properties";
 import { submitInquiry } from "@/lib/properties";
+import { isPropertyFavorite, togglePropertyFavorite } from "@/lib/property-favorites";
 import { phoneToTel } from "@/lib/site-settings";
 import { PropertyFeaturesGrid } from "@/components/PropertyFeaturesGrid";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 function PropertyGallery({ property }: { property: Property }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [liked, setLiked] = useState(false);
   const images = property.gallery;
+
+  useEffect(() => {
+    setLiked(isPropertyFavorite(property.slug));
+  }, [property.slug]);
 
   const prev = () => setActiveIndex((i) => (i === 0 ? images.length - 1 : i - 1));
   const next = () => setActiveIndex((i) => (i === images.length - 1 ? 0 : i + 1));
 
+  const prevLightbox = () =>
+    setLightboxIndex((i) => (i === 0 ? images.length - 1 : i - 1));
+  const nextLightbox = () =>
+    setLightboxIndex((i) => (i === images.length - 1 ? 0 : i + 1));
+
+  async function handleShare() {
+    const url = window.location.href;
+    const shareData = {
+      title: property.title,
+      text: `Confira: ${property.title}`,
+      url,
+    };
+
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copiado para a área de transferência.");
+    } catch {
+      toast.error("Não foi possível compartilhar este imóvel.");
+    }
+  }
+
+  function handleLike() {
+    const isFavorite = togglePropertyFavorite(property.slug);
+    setLiked(isFavorite);
+    toast.success(
+      isFavorite ? "Imóvel adicionado aos favoritos." : "Imóvel removido dos favoritos.",
+    );
+  }
+
+  function openGallery() {
+    setLightboxIndex(activeIndex);
+    setGalleryOpen(true);
+  }
+
   return (
-    <div className="space-y-3">
-      <div className="relative overflow-hidden rounded-lg">
-        {property.badge && (
-          <span className="absolute left-4 top-4 z-10 rounded bg-gold px-3 py-1.5 text-[10px] font-semibold tracking-[0.16em] text-primary-foreground">
-            {property.badge}
-          </span>
-        )}
-        <div className="absolute right-4 top-4 z-10 flex gap-2">
+    <>
+      <div className="space-y-3">
+        <div className="relative overflow-hidden rounded-lg">
+          {property.badge && (
+            <span className="absolute left-4 top-4 z-10 rounded bg-gold px-3 py-1.5 text-[10px] font-semibold tracking-[0.16em] text-primary-foreground">
+              {property.badge}
+            </span>
+          )}
+          <div className="absolute right-4 top-4 z-10 flex gap-2">
+            <button
+              type="button"
+              onClick={() => void handleShare()}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm transition-colors hover:bg-background"
+              aria-label="Compartilhar"
+            >
+              <Share2 className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleLike}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm transition-colors hover:bg-background"
+              aria-label={liked ? "Remover dos favoritos" : "Favoritar"}
+              aria-pressed={liked}
+            >
+              <Heart className={cn("h-4 w-4", liked && "fill-red-500 text-red-500")} />
+            </button>
+          </div>
+          <img
+            src={images[activeIndex]}
+            alt={`${property.title} — foto ${activeIndex + 1}`}
+            fetchPriority="high"
+            decoding="async"
+            className="aspect-[16/9] w-full object-cover md:aspect-[2/1]"
+          />
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm transition-colors hover:bg-background"
-            aria-label="Compartilhar"
+            onClick={prev}
+            className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition-colors hover:bg-background"
+            aria-label="Foto anterior"
           >
-            <Share2 className="h-4 w-4" />
+            <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm transition-colors hover:bg-background"
-            aria-label="Favoritar"
+            onClick={next}
+            className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition-colors hover:bg-background"
+            aria-label="Próxima foto"
           >
-            <Heart className="h-4 w-4" />
+            <ChevronRight className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={openGallery}
+            className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-background/95 px-4 py-2 text-xs font-medium text-foreground shadow-md transition-colors hover:bg-background"
+          >
+            <Images className="h-4 w-4 text-gold" />
+            Ver todas as fotos
           </button>
         </div>
-        <img
-          src={images[activeIndex]}
-          alt={`${property.title} — foto ${activeIndex + 1}`}
-          fetchPriority="high"
-          decoding="async"
-          className="aspect-[16/9] w-full object-cover md:aspect-[2/1]"
-        />
-        <button
-          type="button"
-          onClick={prev}
-          className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition-colors hover:bg-background"
-          aria-label="Foto anterior"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </button>
-        <button
-          type="button"
-          onClick={next}
-          className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition-colors hover:bg-background"
-          aria-label="Próxima foto"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </button>
-        <button
-          type="button"
-          className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-background/95 px-4 py-2 text-xs font-medium text-foreground shadow-md transition-colors hover:bg-background"
-        >
-          <Images className="h-4 w-4 text-gold" />
-          Ver todas as fotos
-        </button>
+        <div className="grid grid-cols-6 gap-2">
+          {images.map((src, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setActiveIndex(i)}
+              className={`overflow-hidden rounded-md border-2 transition-colors ${
+                i === activeIndex ? "border-gold" : "border-transparent opacity-80 hover:opacity-100"
+              }`}
+            >
+              <img src={src} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover" />
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-6 gap-2">
-        {images.map((src, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => setActiveIndex(i)}
-            className={`overflow-hidden rounded-md border-2 transition-colors ${
-              i === activeIndex ? "border-gold" : "border-transparent opacity-80 hover:opacity-100"
-            }`}
-          >
-            <img src={src} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover" />
-          </button>
-        ))}
-      </div>
-    </div>
+
+      <Dialog open={galleryOpen} onOpenChange={setGalleryOpen}>
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Todas as fotos — {property.title}</DialogTitle>
+          </DialogHeader>
+          <div className="relative mt-2 overflow-hidden rounded-lg">
+            <img
+              src={images[lightboxIndex]}
+              alt={`${property.title} — foto ${lightboxIndex + 1}`}
+              className="aspect-[16/10] w-full object-cover"
+            />
+            {images.length > 1 ? (
+              <>
+                <button
+                  type="button"
+                  onClick={prevLightbox}
+                  className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md"
+                  aria-label="Foto anterior"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextLightbox}
+                  className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md"
+                  aria-label="Próxima foto"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </>
+            ) : null}
+            <span className="absolute bottom-3 right-3 rounded bg-background/90 px-2 py-1 text-xs text-foreground">
+              {lightboxIndex + 1} / {images.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setLightboxIndex(i)}
+                className={cn(
+                  "overflow-hidden rounded-md border-2 transition-colors",
+                  i === lightboxIndex ? "border-gold" : "border-transparent opacity-80 hover:opacity-100",
+                )}
+              >
+                <img src={src} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
@@ -277,6 +394,15 @@ export function PropertyDetail({ property, similar }: { property: Property; simi
                 ))}
               </div>
             </div>
+
+            {property.introduction ? (
+              <section>
+                <h2 className="font-display text-2xl text-foreground">Introdução</h2>
+                <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {property.introduction}
+                </p>
+              </section>
+            ) : null}
 
             <section>
               <h2 className="font-display text-2xl text-foreground">Sobre o imóvel</h2>

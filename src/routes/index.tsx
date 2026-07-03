@@ -107,6 +107,7 @@ function Index() {
           properties={filteredProperties}
           emptySearch={hasSearched && !isSearching && filteredProperties.length === 0}
           isLoading={isSearching}
+          hasSearched={hasSearched}
         />
         <Differentials />
         <CTABanner />

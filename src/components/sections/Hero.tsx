@@ -32,7 +32,7 @@ const inputClassName =
   "h-11 w-full rounded-md border border-border/80 bg-background px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-gold/60";
 
 export function Hero({ condominiums, onSearch }: HeroProps) {
-  const [purpose, setPurpose] = useState<PropertyPurpose | "">("comprar");
+  const [purpose, setPurpose] = useState<PropertyPurpose | "">("");
   const [propertyType, setPropertyType] = useState("");
   const [condominium, setCondominium] = useState("");
   const [condominiumOptions, setCondominiumOptions] = useState<string[]>(condominiums);

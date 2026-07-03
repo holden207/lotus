@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Bath, BedDouble, Car, Maximize } from "lucide-react";
 import type { Property } from "@/lib/properties";
+import { propertyBadgeLabel, propertyPurposeLabel } from "@/lib/property-labels";
+import { cn } from "@/lib/utils";
 
 export function PropertyCard({ property }: { property: Property }) {
   const specs = [
@@ -9,6 +11,8 @@ export function PropertyCard({ property }: { property: Property }) {
     { icon: Car, value: property.parking },
     { icon: Maximize, value: `${property.area}m²` },
   ];
+
+  const purposeLabel = propertyPurposeLabel(property.purpose);
 
   return (
     <Link
@@ -19,11 +23,24 @@ export function PropertyCard({ property }: { property: Property }) {
       className="group block overflow-hidden rounded-lg border border-border/70 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-shadow hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
     >
       <div className="relative overflow-hidden">
-        {property.badge && (
-          <span className="absolute left-3 top-3 z-10 rounded bg-gold px-2.5 py-1 text-[9px] font-semibold tracking-[0.16em] text-primary-foreground">
-            {property.badge}
-          </span>
-        )}
+        <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-1.5">
+          {property.badge ? (
+            <span className="rounded bg-gold px-2.5 py-1 text-[9px] font-semibold tracking-[0.16em] text-primary-foreground">
+              {propertyBadgeLabel(property.badge)} · {purposeLabel}
+            </span>
+          ) : (
+            <span
+              className={cn(
+                "rounded px-2.5 py-1 text-[9px] font-semibold tracking-[0.16em]",
+                property.purpose === "alugar"
+                  ? "bg-foreground/90 text-background"
+                  : "bg-gold text-primary-foreground",
+              )}
+            >
+              {purposeLabel}
+            </span>
+          )}
+        </div>
         <img
           src={property.image}
           alt={property.title}
