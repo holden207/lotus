@@ -78,9 +78,6 @@ export function FeaturedProperties({
   isLoading?: boolean;
   hasSearched?: boolean;
 }) {
-  const featuredProperties = properties.filter((property) => property.badge !== "LANÇAMENTO");
-  const launchProperties = properties.filter((property) => property.badge === "LANÇAMENTO");
-
   return (
     <section id="imoveis" className="bg-background py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -98,14 +95,11 @@ export function FeaturedProperties({
             showAllInitially
           />
         ) : (
-          <>
-            <PropertySection
-              eyebrow="DESTAQUES"
-              title="Imóveis em destaque"
-              properties={featuredProperties.length > 0 ? featuredProperties : properties}
-            />
-            <PropertySection eyebrow="LANÇAMENTOS" title="Lançamentos" properties={launchProperties} />
-          </>
+          <PropertySection
+            eyebrow="IMÓVEIS"
+            title="Nossos imóveis"
+            properties={properties}
+          />
         )}
       </div>
     </section>
