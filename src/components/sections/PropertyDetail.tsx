@@ -41,6 +41,7 @@ import { isPropertyFavorite, togglePropertyFavorite } from "@/lib/property-favor
 import { phoneToTel } from "@/lib/site-settings";
 import { PropertyFeaturesGrid } from "@/components/PropertyFeaturesGrid";
 import { toast } from "sonner";
+import { propertyPurposeLabel } from "@/lib/property-labels";
 import { cn } from "@/lib/utils";
 
 function PropertyGallery({ property }: { property: Property }) {
@@ -104,11 +105,16 @@ function PropertyGallery({ property }: { property: Property }) {
     <>
       <div className="space-y-3">
         <div className="relative overflow-hidden rounded-lg">
-          {property.badge && (
-            <span className="absolute left-4 top-4 z-10 rounded bg-gold px-3 py-1.5 text-[10px] font-semibold tracking-[0.16em] text-primary-foreground">
-              {property.badge}
-            </span>
-          )}
+          <span
+            className={cn(
+              "absolute left-4 top-4 z-10 rounded px-3 py-1.5 text-[10px] font-semibold tracking-[0.16em]",
+              property.purpose === "alugar"
+                ? "bg-foreground/90 text-background"
+                : "bg-gold text-primary-foreground",
+            )}
+          >
+            {propertyPurposeLabel(property.purpose)}
+          </span>
           <div className="absolute right-4 top-4 z-10 flex gap-2">
             <button
               type="button"

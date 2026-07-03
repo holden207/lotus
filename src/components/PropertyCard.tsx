@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Bath, BedDouble, Car, Maximize } from "lucide-react";
 import type { Property } from "@/lib/properties";
-import { propertyBadgeLabel, propertyPurposeLabel } from "@/lib/property-labels";
+import { propertyPurposeLabel } from "@/lib/property-labels";
 import { allFeaturesForDisplay, FEATURE_ICONS } from "@/lib/property-features";
 import { cn } from "@/lib/utils";
 
@@ -29,22 +29,16 @@ export function PropertyCard({ property }: { property: Property }) {
     >
       <div className="relative overflow-hidden">
         <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-1.5">
-          {property.badge ? (
-            <span className="rounded bg-gold px-2.5 py-1 text-[9px] font-semibold tracking-[0.16em] text-primary-foreground">
-              {propertyBadgeLabel(property.badge)} · {purposeLabel}
-            </span>
-          ) : (
-            <span
-              className={cn(
-                "rounded px-2.5 py-1 text-[9px] font-semibold tracking-[0.16em]",
-                property.purpose === "alugar"
-                  ? "bg-foreground/90 text-background"
-                  : "bg-gold text-primary-foreground",
-              )}
-            >
-              {purposeLabel}
-            </span>
-          )}
+          <span
+            className={cn(
+              "rounded px-2.5 py-1 text-[9px] font-semibold tracking-[0.16em]",
+              property.purpose === "alugar"
+                ? "bg-foreground/90 text-background"
+                : "bg-gold text-primary-foreground",
+            )}
+          >
+            {purposeLabel}
+          </span>
         </div>
         <img
           src={property.image}
